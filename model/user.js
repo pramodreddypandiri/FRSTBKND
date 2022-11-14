@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
-
+// creating user schema with all fields
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
@@ -23,4 +23,5 @@ const userSchema = new mongoose.Schema({
         type: String
     }
 })
+// export the model
 module.exports = mongoose.model("user", userSchema);
