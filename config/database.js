@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 // DB url
-const {MONGO_URL} = process.env
+const MONGO_URL = process.env.MONGO_URL
 
 
 // export mongoose connection

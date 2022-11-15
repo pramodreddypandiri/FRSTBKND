@@ -1,15 +1,21 @@
 
 require("dotenv").config()
+require('./config/database').connect()
 const express = require("express");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
+
 const app = express()
 app.use(express.json()) // kind of middleware
+app.use(cookieParser()) // kind of middleware
+app.use(express.urlencoded({ extended: true}))
 // import model - user
 const User = require('./model/user');
-const user = require("./model/user");
-const { json } = require("express");
 
+const { json } = require("express");
+const auth = require("./middleware/auth");
+const SECRET = process.env.SECRET
 
 app.get("/",(req, res) => {
     res.send("<h1> Hi Pandiri Pramod Reddy <h1>")  
@@ -43,7 +49,7 @@ app.post("/signup", async (req, res) => {
     // create a token and send to user
     const token = jwt.sign({
         id: user._id, email
-    }, 'secret', {expiresIn: '2h'} )
+    }, SECRET, {expiresIn: '2h'} )
     user.token = token
     // dont want to send password
     user.password = undefined
@@ -76,7 +82,7 @@ app.post('/login', async (req, res) => {
         //match the password
         if(extuser && (await bcrypt.compare(password, extuser.password))){
             //create a token
-            const token = jwt.sign({id: extuser._id, email}, 'secret', {expiresIn: '2h'})
+            const token = jwt.sign({id: extuser._id, email}, SECRET, {expiresIn: '2h'})
             extuser.password = undefined
             extuser.token = token
             // create options for cookie
@@ -103,3 +109,18 @@ app.post('/login', async (req, res) => {
     }
 })
 module.exports = app;
+app.get("/dashboard", (req, res) => {
+    res.send('<h1>Welcome to dashborad</h1>')
+})
+app.get('/profile', (req, auth, getRole,  res) => {
+    //we already hav access to req.user = id, email
+    
+    
+
+    // based on id , query to DB and get all information
+    // of the user - findOne({id})
+
+    // send a json reponse with all data
+
+})
+module.exports = app
