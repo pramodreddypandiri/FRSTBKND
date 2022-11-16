@@ -32,7 +32,7 @@ app.post("/signup", async (req, res) => {
     }
     // check user exits
     // checking mail is unique or not
-    const extuser = await User.findOne(email)
+    const extuser = await User.findOne({email})
     if(extuser){
         res.status(400).send("User already exists")
     }
@@ -78,11 +78,12 @@ app.post('/login', async (req, res) => {
 
         }
         //check user in database
-        const extuser = await User.findOne(email)
+        const extuser = await User.findOne({email})
         //match the password
         if(extuser && (await bcrypt.compare(password, extuser.password))){
             //create a token
             const token = jwt.sign({id: extuser._id, email}, SECRET, {expiresIn: '2h'})
+            //do not send password to front-end
             extuser.password = undefined
             extuser.token = token
             // create options for cookie
@@ -109,14 +110,15 @@ app.post('/login', async (req, res) => {
     }
 })
 module.exports = app;
-app.get("/dashboard", (req, res) => {
-    res.send('<h1>Welcome to dashborad</h1>')
+app.get("/dashboard", auth, (req, res) => {
+    res.send("<h1>Welcome to dashboard</h1>")
 })
-app.get('/profile', (req, auth, getRole,  res) => {
+app.get('/profile',auth, (req, res) => {
+    res.send("<h1>This is yur profile</h1>")
     //we already hav access to req.user = id, email
     
     
-
+    
     // based on id , query to DB and get all information
     // of the user - findOne({id})
 

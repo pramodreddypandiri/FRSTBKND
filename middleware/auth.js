@@ -3,21 +3,27 @@ const jwt = require('jsonwebtoken')
 
 const auth = (req, res, next) => {
     console.log(req.cookies);
-    //grab token form cookie
-    const token = req.cookies
+    const {token} = req.cookies
+    // Authorization: "Bearer longtokenvalue"
+    // const token = req.header("Authorization").replace("Bearer ", "")
+
+
+    //what if token is not there
     if (!token) {
-         res.status(403).send('token is missing')
+        return res.status(403).send('token is missing')
     }
-    try{
+
+    //verify token
+    try {
         const decode = jwt.verify(token, SECRET)
-        console.log(decode);// decode contains info we sent to 
-        //create a token (i.e const token = jwt.sign({id: extuser._id, email}, 'secret', {expiresIn: '2h'}))
-        req.user = decode 
+        
+        req.user = decode
 
-
-    } catch(error) {
+        
+    } catch (error) {
         res.status(403).send('token is invalid')
     }
+
     return next()
 }
 module.exports = auth

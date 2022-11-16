@@ -5,5 +5,5 @@ const {PORT} = process.env
 
 
 app.listen(PORT, () => {
-    `Listening at ${PORT}`
+    console.log(`Listening at ${PORT}`);
 });
