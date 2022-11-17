@@ -7,10 +7,15 @@
         Schema
         middleware 
         DB connection
-
+    Node.js
+        bcrypt.js
+        nodemon
+        cookie-parser
+        jsonwebtoken
     Postman
         API testing 
-    Basics in MongoDB     
+    Basics in MongoDB  
+         Mongoose(ODM)
          Atlas
          Creating a online DB
 # Source Code
