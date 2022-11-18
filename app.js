@@ -109,7 +109,7 @@ app.post('/login', async (req, res) => {
         console.log(error);
     }
 })
-module.exports = app;
+
 app.get("/dashboard", auth, (req, res) => {
     res.send("<h1>Welcome to dashboard</h1>")
 })

@@ -13,6 +13,9 @@
         cookie-parser
         jsonwebtoken
     Postman
+        Creating Collections
+        Creating Environments
+        Reading Cookies, Headers
         API testing 
     Basics in MongoDB  
          Mongoose(ODM)
